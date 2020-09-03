@@ -6,9 +6,6 @@
       font-family: sans-serif;
     }
 
-    .container {
-    }
-
     .hidden {
       display: none;
     }
@@ -170,17 +167,16 @@
 
       generate_card();
 
-      //create_card(1, 'green', 'square', 'stripe');
-      //create_card(2, 'red', 'triangle', 'open');
-      //create_card(3, 'blue', 'circle', 'solid');
       //create_card(2, 'orange', 'circle', 'stripe');
 
       shuffleArray(list_card);
-      let set8 = list_card.slice(0, 8);
-      set8.forEach(c => {
+      current_set = list_card.slice(0, 8);
+      current_set.forEach(c => {
         create_card(c.number, CARD_COLOR[c.color], CARD_SHAPE[c.shape], CARD_FILL[c.fill]);
         console.log(`${c}`)
       });
+
+      find_match(current_set);
     });
 
     function create_card(number, color, shape, fill) {
@@ -199,8 +195,8 @@
       $(".container").html($(".container").html());
     }
 
-    function combine(list, n) {
-      return n == 0 ?
+    let combine = (list, n) =>
+      n == 0 ?
         [[]] :
         list.flatMap((e, i) =>
           combine(
@@ -208,9 +204,10 @@
             n - 1
           ).map(c => [e].concat(c))
         );
-    }
 
     let list_card = [];
+    let current_set;
+
     function generate_card() {
       let arr3 = [1, 2, 3];
       arr3.forEach(n =>
@@ -283,8 +280,7 @@
       return { match: false, case_match: 0 };
     }
 
-    const distinct = (value, index, self) =>
-      self.indexOf(value) === index;
+    const distinct = (value, index, self) => self.indexOf(value) === index;
 
     Array.prototype.distinct = function () { return this.filter(distinct); }
 
@@ -299,7 +295,6 @@
       toString() {
         return `${this.number} - ${CARD_COLOR[this.color]} - ${CARD_SHAPE[this.shape]} - ${CARD_FILL[this.fill]}`;
       }
-
     }
   </script>
 </body>
