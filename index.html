@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <style language='css'>
+    body {
+      font-family: sans-serif;
+    }
+
+    .container {
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    .abs {
+      position: absolute;
+    }
+  </style>
+</head>
+<body>
+  <div class='container'>
+    <svg class="abs" id="svg_define">
+      <style type="text/css">
+        #diagonalHatch {
+          stroke-width: 1;
+          stroke: white;
+          /*fill: inherit;*/
+        }
+
+        mask {
+          stroke-width: 1;
+          stroke: white;
+          /*fill: inherit;*/
+        }
+      </style>
+      <defs>
+        <pattern id="diagonalHatch" patternUnits="userSpaceOnUse" width="4" height="4">
+          <path d="M-1,1 l 2,-2    M0,4 l 4,-4    M3,5 l 2,-2" />
+        </pattern>
+
+        <mask id="mask-circle-stripe">
+          <circle cx="10" cy="10" r="8" fill="url(#diagonalHatch)" />
+        </mask>
+        <mask id="mask-circle-stripe-s">
+          <circle cx="6" cy="6" r="4.8" fill="url(#diagonalHatch)" />
+        </mask>
+
+        <mask id="mask-triangle-stripe">
+          <polygon points="10 2, 19 18, 1 18" fill="url(#diagonalHatch)" />
+        </mask>
+        <mask id="mask-triangle-stripe-s">
+          <polygon points="6 1.2, 11.4 10.8, .6 10.8" fill="url(#diagonalHatch)" />
+        </mask>
+
+        <mask id="mask-square-stripe">
+          <rect x="2" y="2" width="16" height="16" fill="url(#diagonalHatch)" />
+        </mask>
+        <mask id="mask-square-stripe-s">
+          <rect x="1.2" y="1.2" width="9.6" height="9.6" fill="url(#diagonalHatch)" />
+        </mask>
+      </defs>
+
+
+
+      <symbol id="circle-stripe" viewBox="0 0 20 20">
+        <rect width="100%" height="100%" mask="url(#mask-circle-stripe)" />
+      </symbol>
+      <symbol id="circle-stripe-s" viewBox="0 0 12 12">
+        <rect width="100%" height="100%" mask="url(#mask-circle-stripe-s)" />
+      </symbol>
+
+      <symbol id="circle-open" viewBox="0 0 20 20">
+        <circle cx="10" cy="10" r="8" />
+      </symbol>
+      <symbol id="circle-open-s" viewBox="0 0 12 12">
+        <circle cx="6" cy="6" r="4.8" />
+      </symbol>
+
+      <symbol id="square-open" viewBox="0 0 20 20">
+        <rect x="2" y="2" width="16" height="16" />
+      </symbol>
+      <symbol id="square-open-s" viewBox="0 0 12 12">
+        <rect x="1.2" y="1.2" width="9.6" height="9.6" />
+      </symbol>
+
+      <symbol id="triangle-open" viewBox="0 0 20 20">
+        <polygon points="10 2, 19 18, 1 18" />
+      </symbol>
+      <symbol id="triangle-open-s" viewBox="0 0 12 12">
+        <polygon points="6 1.2, 11.4 10.8, .6 10.8" />
+      </symbol>
+
+      <symbol id="card-circle-stripe-1" viewBox="0 0 1000 1500">
+        <rect x="12" y="12" width="976" height="1476" fill="none" stroke-width="24" />
+        <!--<path d="M500,0 l 0,1500" /> <path d="M0,750 l 1000,0" />-->
+        <use href="#circle-stripe" x="250" y="500" width="500" height="500" />
+
+        <use href="#circle-stripe-s" x="30" y="30" width="100" height="100" />
+
+        <use href="#circle-stripe-s" x="870" y="1370" width="100" height="100" />
+      </symbol>
+      <symbol id="card-circle-stripe-2" viewBox="0 0 1000 1500">
+        <rect x="12" y="12" width="976" height="1476" fill="none" stroke-width="24" />
+        <!--<path d="M500,0 l 0,1500" /> <path d="M0,750 l 1000,0" />-->
+        <use href="#circle-stripe" x="250" y="250" width="500" height="500" />
+        <use href="#circle-stripe" x="250" y="750" width="500" height="500" />
+
+        <use href="#circle-stripe-s" x="30" y="30" width="100" height="100" />
+        <use href="#circle-stripe-s" x="30" y="130" width="100" height="100" />
+
+        <use href="#circle-stripe-s" x="870" y="1270" width="100" height="100" />
+        <use href="#circle-stripe-s" x="870" y="1370" width="100" height="100" />
+      </symbol>
+      <symbol id="card-circle-stripe-3" viewBox="0 0 1000 1500">
+        <rect x="12" y="12" width="976" height="1476" fill="none" stroke-width="24" />
+        <!--<path d="M500,0 l 0,1500" /> <path d="M0,750 l 1000,0" />-->
+        <use href="#circle-stripe" x="250" y="500" width="500" height="500" />
+        <use href="#circle-stripe" x="250" y="25" width="500" height="500" />
+        <use href="#circle-stripe" x="250" y="975" width="500" height="500" />
+
+        <use href="#circle-stripe-s" x="30" y="30" width="100" height="100" />
+        <use href="#circle-stripe-s" x="30" y="130" width="100" height="100" />
+        <use href="#circle-stripe-s" x="30" y="230" width="100" height="100" />
+
+        <use href="#circle-stripe-s" x="870" y="1170" width="100" height="100" />
+        <use href="#circle-stripe-s" x="870" y="1270" width="100" height="100" />
+        <use href="#circle-stripe-s" x="870" y="1370" width="100" height="100" />
+      </symbol>
+    </svg>
+
+    <svg height="450px" fill="orange" stroke="orange">
+      <use href="#card-triangle-stripe-2" />
+    </svg>
+    <svg height="450px" fill="green" stroke="green">
+      <use href="#card-square-stripe-3" />
+    </svg>
+    <svg height="450px" fill="red" stroke="red">
+      <use href="#card-circle-stripe-2" />
+    </svg>
+    <svg height="300px" fill="green" stroke="green">
+      <use href="#card-circle-stripe-1" />
+    </svg>
+    <svg height="300px" fill="firebrick" stroke="firebrick">
+      <use href="#card-square-open-1" />
+    </svg>
+    <svg height="300px" fill="firebrick" stroke="firebrick">
+      <use href="#card-circle-open-1" />
+    </svg>
+  </div>
+
+
+  <script src="jquery-3.5.1.min.js"></script>
+  <script>
+    $(document).ready(function () {
+      ['circle', 'square', 'triangle'].forEach(e => {
+        if (e != 'circle') {
+          let symbol_circle = $(`#circle-stripe`);
+          let symbol = symbol_circle.clone();
+          let mask = symbol.attr('mask');
+          symbol.attr('mask', mask.replace('circle', e));
+          symbol.before(symbol_circle);
+        }
+
+        ['stripe', 'open'].forEach(fill => {
+          if (e == 'circle' && fill == 'stripe') return;
+
+          for (let i = 1; i <= 3; ++i) {
+            let tri = $(`#card-circle-stripe-${i}`).clone();
+
+            tri.attr("id", `card-${e}-${fill}-${i}`);
+            tri.find('use').each(function () {
+              let href = $(this).attr('href');
+              $(this).attr('href', href.replace('circle-stripe', `${e}-${fill}`));
+            });
+
+            tri.appendTo($('#svg_define'));
+          }
+        });
+      });
+    });
+
+    function create_card(number, color, shape, fill) {
+      let fill_color = fill == 'open' ? 'none' : color;
+      if (fill == 'solid') fill = 'open';
+
+      let card = $('<svg></svg>').attr({
+        height: '300px',
+        fill: fill_color,
+        stroke: color
+      }).append(`<use href="#card-${shape}-${fill}-${number}" />`);
+
+      card.appendTo('.container');
+    }
+  </script>
+</body>
+</html>
