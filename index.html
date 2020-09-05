@@ -196,6 +196,7 @@
 
   <div style="text-align:center">
     <input type='number' id="quantity" value="12" max="12" style="width: 3em;" />
+    <input type='number' id="max_match" value="-1" max="3" style="width: 3em;" />
     <input type='button' value="Generate" onclick="new_game()" />
     <input type='button' value="  Hint  " onclick="show_hint()" />
   </div>
@@ -262,18 +263,28 @@
       if (i_hint >= 0)
         list_match[i_hint].forEach(m => m.div.addClass('selected'));
     }
+
     function new_game() {
       $('.container').html('');
       let quan = document.getElementById('quantity').value;
+      let i_match = document.getElementById('max_match').value;
 
-      shuffleArray(list_card);
-      current_set = list_card.slice(0, quan);
+      let num_match, ntry = 0;
+      while (num_match != i_match) {
+        ++ntry;
+        shuffleArray(list_card);
+        current_set = list_card.slice(0, quan);
+        list_match = find_match(current_set);
+        num_match = list_match.length;
+
+        if (i_match < 0) break;
+      }
+
+      console.log(`try time: ${ntry}`);
       current_set.forEach(c => {
         create_card(c);
-        console.log(`${c}`)
+        //console.log(`${c}`);
       });
-
-      list_match = find_match(current_set);
     }
     function card_click(evt) {
       let e = this;
@@ -345,14 +356,14 @@
       let list_match = [];
       let list_set = combine(set_card, 3);
 
-      console.log('====== Show matches ========');
+      //console.log('====== Show matches ========');
       list_set.forEach(set => {
         let res = check_match(set);
         if (res.match) {
           list_match.push(set);
-          console.log(res.case_match);
-          console.log(set.join('\n'));
-          console.log('==============');
+          //console.log(res.case_match);
+          //console.log(set.join('\n'));
+          //console.log('==============');
         }
       });
       return list_match;
