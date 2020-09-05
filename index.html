@@ -1,6 +1,10 @@
 <!DOCTYPE html>
 <html>
 <head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" href="eye.png">
+  <title>Magic-treasure</title>
   <style language='css'>
     body {
       font-family: sans-serif;
@@ -13,10 +17,71 @@
     .abs {
       position: absolute;
     }
+
+    .container {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-evenly;
+    }
+
+    .container > div {
+      margin: 0.3em;
+      padding: .5em;
+      text-align: center;
+      /*flex-grow: 1;*/
+      flex-basis: 25%;
+    }
+
+    .container > div > svg {
+      width: 100%;
+      /*height: 7.5em;*/
+    }
+
+    .container > div:hover,
+    .container > div.selected {
+      background-color: lightskyblue;
+      box-shadow: 0 0 0.3em rgba(0, 0, 0, 0.5);
+      border-radius: .2em;
+    }
+
+    input[type=number], select {
+      font: inherit;
+      padding: .2em;
+      border: solid 1px #D8D8D8;
+      box-sizing: border-box;
+    }
+
+    input[type=button] {
+      font: inherit;
+    }
+
+    @media screen and (min-width: 480px) {
+      body {
+        margin: auto;
+        margin-top: .5em;
+      }
+
+      .container > div {
+        /*flex-grow: 1;*/
+        flex-basis: auto;
+      }
+
+        .container > div > svg {
+          width: 10em;
+          height: 12em;
+        }
+    }
+    /* #### Mobile Phones Landscape #### */
+    @media screen and (max-height: 480px) and (orientation: landscape) {
+      .container > div > svg {
+        width: 6em;
+        height: 9em;
+      }
+    }
   </style>
 </head>
 <body>
-  <svg class="abs" id="svg_define">
+  <svg class="abs" id="svg_define" width="1px" height="1px">
     <style type="text/css">
       #diagonalHatch {
         stroke-width: 1;
@@ -28,6 +93,10 @@
         stroke-width: 1;
         stroke: white;
         /*fill: inherit;*/
+      }
+
+      rect.base {
+        fill: beige;
       }
     </style>
     <defs>
@@ -88,7 +157,7 @@
     </symbol>
 
     <symbol id="card-circle-stripe-1" viewBox="0 0 1000 1500">
-      <rect x="12" y="12" width="976" height="1476" fill="none" stroke-width="24" />
+      <rect class="base" x="12" y="12" width="976" height="1476" stroke-width="24" rx="20" />
       <!--<path d="M500,0 l 0,1500" /> <path d="M0,750 l 1000,0" />-->
       <use href="#circle-stripe" x="250" y="500" width="500" height="500" />
 
@@ -97,7 +166,7 @@
       <use href="#circle-stripe-s" x="870" y="1370" width="100" height="100" />
     </symbol>
     <symbol id="card-circle-stripe-2" viewBox="0 0 1000 1500">
-      <rect x="12" y="12" width="976" height="1476" fill="none" stroke-width="24" />
+      <rect class="base" x="12" y="12" width="976" height="1476" fill="none" stroke-width="24" rx="20" />
       <!--<path d="M500,0 l 0,1500" /> <path d="M0,750 l 1000,0" />-->
       <use href="#circle-stripe" x="250" y="250" width="500" height="500" />
       <use href="#circle-stripe" x="250" y="750" width="500" height="500" />
@@ -109,7 +178,7 @@
       <use href="#circle-stripe-s" x="870" y="1370" width="100" height="100" />
     </symbol>
     <symbol id="card-circle-stripe-3" viewBox="0 0 1000 1500">
-      <rect x="12" y="12" width="976" height="1476" fill="none" stroke-width="24" />
+      <rect class="base" x="12" y="12" width="976" height="1476" fill="none" stroke-width="24" rx="20" />
       <!--<path d="M500,0 l 0,1500" /> <path d="M0,750 l 1000,0" />-->
       <use href="#circle-stripe" x="250" y="500" width="500" height="500" />
       <use href="#circle-stripe" x="250" y="25" width="500" height="500" />
@@ -125,12 +194,22 @@
     </symbol>
   </svg>
 
-  <div class='container'>
-    <!--<svg height="300px" fill="none" stroke="firebrick">
-      <use href="#card-square-open-3" />
-    </svg>-->
+  <div style="text-align:center">
+    <input type='number' id="quantity" value="12" max="12" style="width: 3em;" />
+    <input type='button' value="Generate" onclick="new_game()" />
+    <input type='button' value="  Hint  " onclick="show_hint()" />
   </div>
-
+  <div class='container'>
+    <!--<div>
+      <svg width="200px" height="300px">
+        <use href="#card-circle-stripe-1" fill="orange" stroke="firebrick" width="100%" height="100%" />
+      </svg>
+    </div>-->
+  </div>
+  <code>
+    Created date: 2020-09-02<br />
+    Modified date: 2020-09-05
+  </code>
 
   <script src="jquery-3.5.1.min.js"></script>
   <script>
@@ -168,31 +247,54 @@
       generate_card();
 
       //create_card(2, 'orange', 'circle', 'stripe');
+      new_game();
+
+      $(".container").on('click', 'div', function () {
+        $(this).toggleClass('selected');
+      });
+
+    });
+
+    function show_hint() {
+      $('.container > div').removeClass('selected');
+
+      i_hint = ((i_hint || 0) + 1) % list_match.length;
+      if (i_hint >= 0)
+        list_match[i_hint].forEach(m => m.div.addClass('selected'));
+    }
+    function new_game() {
+      $('.container').html('');
+      let quan = document.getElementById('quantity').value;
 
       shuffleArray(list_card);
-      current_set = list_card.slice(0, 8);
+      current_set = list_card.slice(0, quan);
       current_set.forEach(c => {
-        create_card(c.number, CARD_COLOR[c.color], CARD_SHAPE[c.shape], CARD_FILL[c.fill]);
+        create_card(c);
         console.log(`${c}`)
       });
 
-      find_match(current_set);
-    });
-
-    function create_card(number, color, shape, fill) {
+      list_match = find_match(current_set);
+    }
+    function card_click(evt) {
+      let e = this;
+    }
+    function create_card(c) {
+      let [color, shape, fill] = [CARD_COLOR[c.color], CARD_SHAPE[c.shape], CARD_FILL[c.fill]];
       let fill_color = fill == 'open' ? 'none' : color;
       if (fill == 'solid') fill = 'open';
 
       let card = $('<svg></svg>').attr({
-        width: '250px',
-        height: '300px',
         fill: fill_color,
         stroke: color
-      }).append(`<use href="#card-${shape}-${fill}-${number}" />`);
+      }).append(`<use href="#card-${shape}-${fill}-${c.number}" />`);
 
-      card.appendTo('.container');
+      let dom = $('<div></div>')
+        .appendTo('.container')
+        .append(card)
+        ;
       //refesh svg
-      $(".container").html($(".container").html());
+      dom.html(dom.html());
+      c.div = dom;
     }
 
     let combine = (list, n) =>
@@ -207,6 +309,7 @@
 
     let list_card = [];
     let current_set;
+    let list_match, i_hint;
 
     function generate_card() {
       let arr3 = [1, 2, 3];
@@ -239,16 +342,20 @@
       find_match(set8);
     }
     function find_match(set_card) {
+      let list_match = [];
       let list_set = combine(set_card, 3);
+
+      console.log('====== Show matches ========');
       list_set.forEach(set => {
         let res = check_match(set);
         if (res.match) {
+          list_match.push(set);
           console.log(res.case_match);
           console.log(set.join('\n'));
           console.log('==============');
         }
       });
-      return null;
+      return list_match;
     }
     function check_match(set_card) {
       // case:
