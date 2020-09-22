@@ -50,7 +50,8 @@ $(document).ready(function () {
   new_game();
 
   $(".container").on('click', 'div', function () {
-    $(this).toggleClass('selected');
+    if ($('.container > div.selected').length < 3 || $(this).hasClass('selected'))
+      $(this).toggleClass('selected');
   });
 
 });
